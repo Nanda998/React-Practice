@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .main {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .kgf {
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .kgf h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        input {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        button {
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        #fds {
+            width: 90%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .game {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .game:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .game-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            margin-top: 10px;
+            margin-bottom: 3px;
+        }
+        
+        .game-label:first-child {
+            margin-top: 0;
+        }
+        
+        .game-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .delete-btn {
+            margin-top: 15px;
+            padding: 8px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+        
+        .delete-btn:hover {
+            background: #ee5a6f;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="kgf">
+            <h2>Add Employee</h2>
+            <input type="text" placeholder="Enter the name" id="name">
+            <input type="number" placeholder="Enter age" id="age">
+            <input type="text" placeholder="Enter position" id="position">
+            <button id="submitBtn">Submit</button>
+        </div>
+        <div id="fds"></div>
+    </div>
+    
+    <script>
+        let name = document.getElementById('name');
+        let age = document.getElementById('age');
+        let pos = document.getElementById('position');
+        let btn = document.getElementById('submitBtn');
+        let fds = document.getElementById('fds');
+
+        btn.addEventListener('click', () => {
+            // Validate inputs
+            if (!name.value.trim() || !age.value.trim() || !pos.value.trim()) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create card
+            let card = document.createElement('div');
+            card.className = 'game';
+            
+            // Create structured content
+            card.innerHTML = `
+                <div class="game-label">Name</div>
+                <div class="game-value">${name.value}</div>
+                
+                <div class="game-label">Age</div>
+                <div class="game-value">${age.value}</div>
+                
+                <div class="game-label">Position</div>
+                <div class="game-value">${pos.value}</div>
+                
+                <button class="delete-btn">Delete</button>
+            `;
+            
+            // Add delete functionality
+            card.querySelector('.delete-btn').addEventListener('click', () => {
+                card.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => card.remove(), 300);
+            });
+            
+            fds.appendChild(card);
+            
+            // Clear inputs
+            name.value = '';
+            age.value = '';
+            pos.value = '';
+            name.focus();
+        });
+        
+        // Allow Enter key to submit
+        [name, age, pos].forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    btn.click();
+                }
+            });
+        });
+    </script>
+    
+    <style>
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</body>
+</html>
