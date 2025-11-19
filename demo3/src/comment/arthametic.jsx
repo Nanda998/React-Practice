@@ -36,4 +36,4 @@ function Arthametic(){
     )
 
 }
-export default Arthametic
+export default Arthametic 
