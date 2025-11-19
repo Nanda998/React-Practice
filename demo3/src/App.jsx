@@ -7,7 +7,7 @@ import Pat from "./comment/input-onchange"
 function App(){
     return(
         <div>
-            <Clip1/>
+            <Clip/>
         </div>
     )
 
